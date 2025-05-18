@@ -1,3 +1,4 @@
+#include "GLCanvas.h"
 #include <wx/wx.h>
 
 class MainApp : public wxApp {
@@ -19,4 +20,6 @@ bool MainApp::OnInit() {
 }
 
 MainWindow::MainWindow(const wxString &title)
-    : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600)) {}
+    : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600)) {
+  new GLCanvas(this);
+}
