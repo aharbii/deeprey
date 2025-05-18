@@ -10,6 +10,7 @@ permissions:
 
 env:
   RELEASE_TAG: ${{ github.ref_name }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   build-linux:
@@ -45,7 +46,7 @@ jobs:
           cd build
           tar -czvf deeprey_linux_${{ env.RELEASE_TAG }}.tar.gz release
 
-      - name: Create Release
+      - name: Create Release (Linux)
         id: create_release
         uses: actions/create-release@v1.1.1
         with:
@@ -54,7 +55,7 @@ jobs:
           draft: false
           prerelease: false
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
 
       - name: Upload Linux Asset
         uses: actions/upload-release-asset@v1
@@ -63,6 +64,8 @@ jobs:
           asset_path: build/deeprey_linux_${{ env.RELEASE_TAG }}.tar.gz
           asset_name: deeprey_linux_${{ env.RELEASE_TAG }}.tar.gz
           asset_content_type: application/gzip
+        env:
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
 
   build-windows:
     runs-on: windows-latest
@@ -106,3 +109,5 @@ jobs:
           asset_path: build/deeprey_windows_${{ env.RELEASE_TAG }}.zip
           asset_name: deeprey_windows_${{ env.RELEASE_TAG }}.zip
           asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
