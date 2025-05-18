@@ -21,13 +21,14 @@ jobs:
         with:
           cmake-version: '3.22.0'
 
-      - name: Set up wxWidgets (Linux)
+      - name: Install Dependencies (Linux)
         if: matrix.os == 'ubuntu-22.04'
         run: |
           sudo apt-get update
-          sudo apt install -y build-essential libgtk-3-dev libglu1-mesa-dev libsoil-dev
+          sudo apt-get install -y build-essential libgtk-3-dev libglu1-mesa-dev libsoil-dev
+          sudo apt-get install -y libwxgtk3.0-gtk3-dev wx3.0-headers wx-common
 
-      - name: Set up wxWidgets and SOIL (Windows)
+      - name: Install Dependencies (Windows)
         if: matrix.os == 'windows-latest'
         run: |
           choco install wxwidgets --version=3.1.5
@@ -41,7 +42,8 @@ jobs:
 
       - name: Configure CMake
         working-directory: ${{ github.workspace }}
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DwxWidgets_ROOT_DIR=/usr/lib/x86_64-linux-gnu/wx -DwxWidgets_CONFIG_EXECUTABLE=/usr/bin/wx-config
 
       - name: Build Project
         run: cmake --build build --config Release
