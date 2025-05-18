@@ -14,6 +14,9 @@ private:
   void OnResize(wxSizeEvent &event);
   void OnIdle(wxIdleEvent &event);
   void OnMouseLeftDown(wxMouseEvent &event);
+  void OnSliderUpdate(wxCommandEvent &event);
+  void OnCheckBoxToggle(wxCommandEvent &event);
+  void OnMouseMove(wxMouseEvent &event);
 
   wxGLContext *m_context;
   GLuint buttonTexture;
@@ -26,6 +29,13 @@ private:
   void LoadTextures();
 
   bool texturesLoaded;
+  bool contextInitialized;
+  bool triangleVisible;
+  float rotationAngle;
+
+  wxPanel *controlPanel;
+  wxSlider *rotationSlider;
+  wxCheckBox *visibilityCheckBox;
 
   wxDECLARE_EVENT_TABLE();
 };

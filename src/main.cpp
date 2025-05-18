@@ -20,6 +20,10 @@ bool MainApp::OnInit() {
 }
 
 MainWindow::MainWindow(const wxString &title)
-    : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600)) {
-  new GLCanvas(this);
+    : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(900, 600)) {
+
+  wxBoxSizer *mainSizer = new wxBoxSizer(wxHORIZONTAL);
+  GLCanvas *glCanvas = new GLCanvas(this);
+  mainSizer->Add(glCanvas, 1, wxEXPAND);
+  SetSizer(mainSizer);
 }
