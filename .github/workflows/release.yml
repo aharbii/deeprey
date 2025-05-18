@@ -46,7 +46,7 @@ jobs:
         run: cmake --build build --config Release
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.0  # Explicit version
         with:
           name: wxOpenGLApp-${{ matrix.os }}-build
           path: build/release/
