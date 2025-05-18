@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-22.04, windows-latest]
 
     steps:
       - name: Checkout repository
@@ -19,13 +19,13 @@ jobs:
       - name: Set up CMake
         uses: jwlawson/actions-setup-cmake@v1
         with:
-          cmake-version: '3.16.0'
+          cmake-version: '3.22.0'
 
       - name: Set up wxWidgets (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwxgtk3.0-gtk3-dev libsoil-dev
+          sudo apt install -y build-essential libgtk-3-dev libglu1-mesa-dev libsoil-dev
 
       - name: Set up wxWidgets and SOIL (Windows)
         if: matrix.os == 'windows-latest'
