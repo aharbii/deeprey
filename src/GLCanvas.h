@@ -12,11 +12,20 @@ public:
 private:
   void OnPaint(wxPaintEvent &event);
   void OnResize(wxSizeEvent &event);
+  void OnIdle(wxIdleEvent &event);
+  void OnMouseLeftDown(wxMouseEvent &event);
 
   wxGLContext *m_context;
+  GLuint buttonTexture;
+  int buttonWidth, buttonHeight;
 
   void InitializeGL();
   void DrawTriangle();
+  void DrawOverlayButton();
+  GLuint LoadTexture(const char *filePath);
+  void LoadTextures();
+
+  bool texturesLoaded;
 
   wxDECLARE_EVENT_TABLE();
 };

@@ -5,7 +5,7 @@
             "name": "Debug wxOpenGLApp",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/wxOpenGLApp",
+            "program": "${workspaceFolder}/build/release/wxOpenGLApp",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
