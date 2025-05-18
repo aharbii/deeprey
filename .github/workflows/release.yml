@@ -48,8 +48,50 @@ jobs:
       - name: Build Project
         run: cmake --build build --config Release
 
+      - name: Compress Release Directory (Linux)
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          cd build
+          tar -czvf release.tar.gz release
+
+      - name: Compress Release Directory (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          cd build
+          powershell Compress-Archive -Path release -DestinationPath release.zip
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: wxOpenGLApp-${{ matrix.os }}-build
-          path: build/release
+          path: |
+            build/release.zip
+            build/release.tar.gz
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Asset (Linux)
+        if: matrix.os == 'ubuntu-22.04'
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/release.tar.gz
+          asset_name: release-${{ matrix.os }}.tar.gz
+          asset_content_type: application/gzip
+
+      - name: Upload Release Asset (Windows)
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/release.zip
+          asset_name: release-${{ matrix.os }}.zip
+          asset_content_type: application/zip
